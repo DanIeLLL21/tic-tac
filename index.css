@@ -1,0 +1,31 @@
+*{
+	margin:0;
+	padding:0;
+	font-family:roboto;
+}
+table {
+	width:400px;
+	height:400px;
+}
+
+
+body {
+	background-color:#343a40;
+}
+
+h1 {
+	color:#dee2e6;
+}
+
+button {
+ 	
+}
+
+.container {
+	width:100%;
+}
+
+#tablecont {
+	margin-left:100px;
+		
+}
