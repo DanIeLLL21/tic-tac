@@ -32,6 +32,8 @@ let symbolO = document.getElementById('firstSymbol-O')
 // naprednije napraviti dva buttona koji ce biti mogucnost odabira prilikom klika na polje i dati mogucnost X-a ili O-a i opet checkirat win.
 
 
+// ne dozvoliti undefiend unos prilikom klika nego ga overwrajtat ili upozoriti user-a da nije izabran.
+
 window.addEventListener('load', () => { drawBoard(); } )
 
 playagain.addEventListener('click', () => { reset(); })
@@ -52,6 +54,10 @@ firstSymbol.addEventListener('click', (e) => {
 
 
 table.addEventListener('click', (event) => {
+
+	if(event.target.value == undefined){
+		
+	} 
 
 
 const isButton = event.target.nodeName === 'BUTTON';
@@ -117,7 +123,7 @@ for(let i = 0 ; i < board.length ; i++){
 	for(let k = 0 ; k < board[i].length ; k++){
 		let cell = document.createElement('td')
 		let button = document.createElement('button')
-		button.innerHTML = board[i][k];
+		button.innerHTML = "";
 		button.value = board[i][k];
 		button.style.height = "75px"
 		button.className = "nes"
@@ -165,8 +171,8 @@ function reset () {
 	
 
 	for(let i = 0 ; i < bats.length ; i++){
-		bats[i].innerHTML = i+1;
-		bats[i].value = i+1;
+		bats[i].innerHTML = "";
+		bats[i].value = "";
 		bats[i].disabled = false;
 	}
 
@@ -175,7 +181,7 @@ function reset () {
 	for(let i = 0 ; i < board.length ; i++){
 		for(let k = 0 ; k < board[i].length ; k++){
 			index++
-			board[i][k] = index;
+			board[i][k] = "";
 		}
 	}
 
