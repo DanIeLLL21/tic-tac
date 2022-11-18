@@ -56,7 +56,6 @@ firstSymbol.addEventListener('click', (e) => {
 table.addEventListener('click', (event) => {
 
 
-
 const isButton = event.target.nodeName === 'BUTTON';
   if (!isButton) {
     return;
@@ -168,7 +167,7 @@ function reset () {
 	
 
 	for(let i = 0 ; i < bats.length ; i++){
-		bats[i].innerHTML = i+1;
+		bats[i].innerHTML = "";
 		bats[i].value = i+1;
 		bats[i].disabled = false;
 	}
