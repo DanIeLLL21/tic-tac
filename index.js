@@ -1,5 +1,7 @@
 let count = 0;
 let gamestatus = "";
+let step = 1;
+
 
 let board = [
   [1, 2, 3],
@@ -7,38 +9,72 @@ let board = [
   [7, 8, 9]
 ];
 
+let firstmark;
+let secondmark;
+
+//ne imati select ijdida nego napravit container i sve to napravit u lupu a ne zasebno
 
 let tableCont = document.getElementById("tablecont")
 let gameStatusPlace = document.getElementById('gamestatus')
 
+let playagain = document.getElementById('playAgain')
+
 let table = document.createElement('table')
 let bats = document.getElementsByClassName('nes')
 
-// istajlat gejmboard i gejm enviroment.
+
+let firstSymbol = document.querySelector('.firstSymbol')
+
+let symbolX = document.getElementById('firstSymbol-X')
+let symbolO = document.getElementById('firstSymbol-O')
+
+// istajlat gejmboard i gejm https://fonts.google.com/specimen/Noto+Sans+Mende+Kikakuienviroment.
 // naprednije napraviti dva buttona koji ce biti mogucnost odabira prilikom klika na polje i dati mogucnost X-a ili O-a i opet checkirat win.
 
 
 window.addEventListener('load', () => { drawBoard(); } )
 
+playagain.addEventListener('click', () => { reset(); })
+
+firstSymbol.addEventListener('click', (e) => {
+
+	e.target.disabled = true;
+	if(e.target.value == "X"){
+		firstmark = e.target.value;
+		secondmark = "O"
+	} else if (e.target.value == "O") {
+		firstmark = e.target.value;
+		secondmark = "X"
+	}
+
+})
+
+
+
 table.addEventListener('click', (event) => {
-  
+
+
 const isButton = event.target.nodeName === 'BUTTON';
   if (!isButton) {
     return;
   }
 
-  let input = prompt("symbol")
-
   for(let i = 0 ; i < board.length ; i++){
-  	for(let k = 0 ; k < board[i].length ; k++){
-  		if(board[i][k] == event.target.value){
-  			event.target.innerHTML = input;
-  			event.target.value = input;
-  			board[i][k] = input;
-  		} 
-  	}
 
+  	for(let k = 0 ; k < board[i].length ; k++){
+  		if(event.target.value == board[i][k]) {	
+  			step++
+  			if(step%2=== 0){
+ 		 	event.target.innerHTML = firstmark;
+  			board[i][k] = firstmark;
+  			} else {
+  			event.target.innerHTML = secondmark;
+  			board[i][k] = secondmark;	
+  			}
+  		}
   }
+}
+
 
   event.target.disabled = true;
 
@@ -51,41 +87,51 @@ function checkWin (e) {
 
 	count++
 
-	if(board[0][0] == e.target.value && board[0][1] == e.target.value && board[0][2] == e.target.value ) {
+	if(board[0][0] == e.target.innerHTML && board[0][1] == e.target.innerHTML && board[0][2] == e.target.innerHTML ) {
 		gamestatus = "WIN"
-	} else if (board[0][0] == e.target.value && board[1][0] == e.target.value && board[2][0] == e.target.value){
+	} else if (board[0][0] == e.target.innerHTML && board[1][0] == e.target.innerHTML && board[2][0] == e.target.innerHTML){
 		gamestatus = "WIN"
-	} else if (board[1][0] == e.target.value && board[1][1] == e.target.value && board[1][2] == e.target.value){
+	} else if (board[1][0] == e.target.innerHTML && board[1][1] == e.target.innerHTML && board[1][2] == e.target.innerHTML){
 		gamestatus = "WIN"
-	} else if (board[2][0] == e.target.value && board[2][1] == e.target.value && board[2][2] == e.target.value){
+	} else if (board[2][0] == e.target.innerHTML && board[2][1] == e.target.innerHTML && board[2][2] == e.target.innerHTML){
 		gamestatus = "WIN"
-	} else if (board[0][1] == e.target.value && board[1][1] == e.target.value && board[2][1] == e.target.value){
+	} else if (board[0][1] == e.target.innerHTML && board[1][1] == e.target.innerHTML && board[2][1] == e.target.innerHTML){
 		gamestatus = "WIN"
-	} else if (board[0][2] == e.target.value && board[1][2] == e.target.value && board[2][2] == e.target.value){
+	} else if (board[0][2] == e.target.innerHTML && board[1][2] == e.target.innerHTML && board[2][2] == e.target.innerHTML){
 		gamestatus = "WIN"
-	} else if (board[0][0] == e.target.value && board[1][1] == e.target.value && board[2][2] == e.target.value){
+	} else if (board[0][0] == e.target.innerHTML && board[1][1] == e.target.innerHTML && board[2][2] == e.target.innerHTML){
 		gamestatus = "WIN"
-	} else if (board[0][2] == e.target.value && board[1][1] == e.target.value && board[2][0] == e.target.value){
+	} else if (board[0][2] == e.target.innerHTML && board[1][1] == e.target.innerHTML && board[2][0] == e.target.innerHTML){
 		gamestatus = "WIN"
 	}
 }
 
 function drawBoard () {
 
+	playagain.disabled = true;
+	
 	tablecont.appendChild(table)
 for(let i = 0 ; i < board.length ; i++){
 	let row = document.createElement('tr')
 	table.appendChild(row)
 	for(let k = 0 ; k < board[i].length ; k++){
+		let cell = document.createElement('td')
 		let button = document.createElement('button')
 		button.innerHTML = board[i][k];
 		button.value = board[i][k];
-		button.style.height = "50px"
+		button.style.height = "75px"
 		button.className = "nes"
-		button.style.width = "50px"
+		cell.className = "eachCell"
+		button.style.width = "75px"
+		button.style.backgroundColor ="#343a40"
+		button.style.color="white"
 		button.style.margin = "20px 20px 20px 20px"
-		row.appendChild(button)
+		button.style.fontSize = "20px"
+		cell.style.borderBottom = "thick solid white"
+		row.appendChild(cell)
+		cell.appendChild(button)
 	}
+
 
 }
 
@@ -94,31 +140,33 @@ for(let i = 0 ; i < board.length ; i++){
 function checkstatus (event) {
 
 	if(gamestatus == "WIN"){
-		gameStatusPlace.innerHTML = `${event.target.value} WON !`
+		gameStatusPlace.innerHTML = `${event.target.innerHTML} WON !`
 		gameStatusPlace.style.color = "green"
-		reset();
+		playagain.disabled = false;
 	} else if(count == 9){
 		gameStatusPlace.innerHTML = `Board filled. Game Over !`
 		gameStatusPlace.style.color = "red"
-		reset();
+		playagain.disabled = false;
 	}
 }
 
 
-
-
 function reset () {
 
-	setTimeout(() => {
- 	gameStatusPlace.innerHTML = ""},3000)
-
+ 	gameStatusPlace.innerHTML = ""
 	gamestatus = "";
 	count = 0;
+	step = 1;
+	firstmark = "";
+	secondmark= "";
+
+	symbolX.disabled = false;
+	symbolO.disabled = false;
+	
 
 	for(let i = 0 ; i < bats.length ; i++){
 		bats[i].innerHTML = i+1;
 		bats[i].value = i+1;
-
 		bats[i].disabled = false;
 	}
 
