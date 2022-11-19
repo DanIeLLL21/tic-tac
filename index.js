@@ -2,7 +2,6 @@ let count = 0;
 let gamestatus = "";
 let step = 1;
 
-
 let board = [
   [1, 2, 3],
   [4, 5, 6],
@@ -28,10 +27,6 @@ let firstSymbol = document.querySelector('.firstSymbol')
 let symbolX = document.getElementById('firstSymbol-X')
 let symbolO = document.getElementById('firstSymbol-O')
 
-// istajlat gejmboard i gejm https://fonts.google.com/specimen/Noto+Sans+Mende+Kikakuienviroment.
-// naprednije napraviti dva buttona koji ce biti mogucnost odabira prilikom klika na polje i dati mogucnost X-a ili O-a i opet checkirat win.
-
-
 // ne dozvoliti undefiend unos prilikom klika nego ga overwrajtat ili upozoriti user-a da nije izabran.
 
 window.addEventListener('load', () => { drawBoard(); } )
@@ -41,6 +36,7 @@ playagain.addEventListener('click', () => { reset(); })
 firstSymbol.addEventListener('click', (e) => {
 
 	e.target.disabled = true;
+
 	if(e.target.value == "X"){
 		firstmark = e.target.value;
 		secondmark = "O"
@@ -52,21 +48,24 @@ firstSymbol.addEventListener('click', (e) => {
 })
 
 
-
 table.addEventListener('click', (event) => {
-
 
 const isButton = event.target.nodeName === 'BUTTON';
   if (!isButton) {
     return;
   }
 
-  for(let i = 0 ; i < board.length ; i++){
+  if(firstmark == undefined && secondmark == undefined) {
+  	return;
+  }
 
+
+
+  for(let i = 0 ; i < board.length ; i++){
   	for(let k = 0 ; k < board[i].length ; k++){
   		if(event.target.value == board[i][k]) {	
   			step++
-  			if(step%2=== 0){
+  			if(step % 2 === 0){
  		 	event.target.innerHTML = firstmark;
   			board[i][k] = firstmark;
   			} else {
@@ -141,17 +140,30 @@ for(let i = 0 ; i < board.length ; i++){
 
 function checkstatus (event) {
 
-	if(gamestatus == "WIN"){
+	if(gamestatus == "WIN") {
 		gameStatusPlace.innerHTML = `${event.target.innerHTML} WON !`
 		gameStatusPlace.style.color = "green"
-		playagain.disabled = false;
-	} else if(count == 9){
+		//skuziti kako disable bez funkcije ovdje.
+		disableButtons();
+	} else if(count == 9) {
+
 		gameStatusPlace.innerHTML = `Board filled. Game Over !`
 		gameStatusPlace.style.color = "red"
 		playagain.disabled = false;
+		disableButtons();
 	}
 }
 
+function disableButtons () {
+
+	for(let i = 0 ; i < bats.length ; i++){
+		bats[i].disabled = true;
+	}
+
+	symbolX.disabled = true;
+	symbolO.disabled = true;
+	playagain.disabled = false;
+}
 
 function reset () {
 
@@ -159,8 +171,8 @@ function reset () {
 	gamestatus = "";
 	count = 0;
 	step = 1;
-	firstmark = "";
-	secondmark= "";
+	firstmark = undefined;
+	secondmark= undefined;
 
 	symbolX.disabled = false;
 	symbolO.disabled = false;
