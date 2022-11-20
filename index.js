@@ -40,12 +40,19 @@ firstSymbol.addEventListener('click', (e) => {
 	if(e.target.value == "X"){
 		firstmark = e.target.value;
 		secondmark = "O"
+		symbolO.disabled = true;
+
+
 	} else if (e.target.value == "O") {
+		symbolX.disabled = true;
 		firstmark = e.target.value;
 		secondmark = "X"
 	}
 
 })
+
+
+
 
 
 table.addEventListener('click', (event) => {
@@ -58,8 +65,6 @@ const isButton = event.target.nodeName === 'BUTTON';
   if(firstmark == undefined && secondmark == undefined) {
   	return;
   }
-
-
 
   for(let i = 0 ; i < board.length ; i++){
   	for(let k = 0 ; k < board[i].length ; k++){
@@ -185,11 +190,11 @@ function reset () {
 	}
 
 
-	let index = 0 ;
+
 	for(let i = 0 ; i < board.length ; i++){
 		for(let k = 0 ; k < board[i].length ; k++){
-			index++
-			board[i][k] = index;
+			count++
+			board[i][k] = count;
 		}
 	}
 
