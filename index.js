@@ -1,6 +1,6 @@
-let count = 0;
-let gamestatus = "";
-let step = 1;
+let firstmark;
+let secondmark;
+let gamestatus;
 
 let board = [
   [1, 2, 3],
@@ -8,24 +8,24 @@ let board = [
   [7, 8, 9]
 ];
 
-let firstmark;
-let secondmark;
+let count = 0;
+let step = 1;
 
 //ne imati select ijdida nego napravit container i sve to napravit u lupu a ne zasebno
 
 let tableCont = document.getElementById("tablecont")
 let gameStatusPlace = document.getElementById('gamestatus')
+let table = document.createElement('table')
 
 let playagain = document.getElementById('playAgain')
+let bats = document.getElementsByClassName('cellButton')
 
-let table = document.createElement('table')
-let bats = document.getElementsByClassName('nes')
-
-
-let firstSymbol = document.querySelector('.firstSymbol')
-
+let firstSymbol = document.querySelector('.firstSymbolContainer')
 let symbolX = document.getElementById('firstSymbol-X')
 let symbolO = document.getElementById('firstSymbol-O')
+
+
+
 
 // ne dozvoliti undefiend unos prilikom klika nego ga overwrajtat ili upozoriti user-a da nije izabran.
 
@@ -41,8 +41,6 @@ firstSymbol.addEventListener('click', (e) => {
 		firstmark = e.target.value;
 		secondmark = "O"
 		symbolO.disabled = true;
-
-
 	} else if (e.target.value == "O") {
 		symbolX.disabled = true;
 		firstmark = e.target.value;
@@ -51,20 +49,30 @@ firstSymbol.addEventListener('click', (e) => {
 
 })
 
-
-
-
-
 table.addEventListener('click', (event) => {
 
-const isButton = event.target.nodeName === 'BUTTON';
+	console.log(playagain)
+  const isButton = event.target.nodeName === 'BUTTON';
   if (!isButton) {
     return;
   }
 
   if(firstmark == undefined && secondmark == undefined) {
+    symbolX.style.backgroundColor = "#EC5151"
+    symbolO.style.backgroundColor = "#EC5151"
+
+    setTimeout(()=>{
+    symbolX.style.backgroundColor = "white"
+    symbolO.style.backgroundColor = "white"
+    },1000)
   	return;
+  } else if (!playagain.disabled){
+  	playagain.style.backgroundColor = "#EC5151"
+  	setTimeout(()=>{
+  	playagain.style.backgroundColor = defaultcolor;
+    },1000)
   }
+
 
   for(let i = 0 ; i < board.length ; i++){
   	for(let k = 0 ; k < board[i].length ; k++){
@@ -81,17 +89,13 @@ const isButton = event.target.nodeName === 'BUTTON';
   }
 }
 
-
   event.target.disabled = true;
-
+  count ++
   checkWin(event)
-  checkstatus(event);
 
 })
 
 function checkWin (e) {
-
-	count++
 
 	if(board[0][0] == e.target.innerHTML && board[0][1] == e.target.innerHTML && board[0][2] == e.target.innerHTML ) {
 		gamestatus = "WIN"
@@ -110,6 +114,19 @@ function checkWin (e) {
 	} else if (board[0][2] == e.target.innerHTML && board[1][1] == e.target.innerHTML && board[2][0] == e.target.innerHTML){
 		gamestatus = "WIN"
 	}
+
+	console.log(count)
+	if (gamestatus == "WIN") {
+		gameStatusPlace.innerHTML = `${e.target.innerHTML} WON !`
+		gameStatusPlace.style.color = "#2f9e44"
+		//skuziti kako disable bez funkcije ovdje.
+		disableButtons();
+	} else if (count == 9) {
+
+		gameStatusPlace.innerHTML = `Board filled. Game Over !`
+		gameStatusPlace.style.color = "#F03E3E"
+		disableButtons();
+	}
 }
 
 function drawBoard () {
@@ -126,7 +143,7 @@ for(let i = 0 ; i < board.length ; i++){
 		button.innerHTML = "";
 		button.value = board[i][k];
 		button.style.height = "75px"
-		button.className = "nes"
+		button.className = "cellButton"
 		cell.className = "eachCell"
 		button.style.width = "75px"
 		button.style.backgroundColor ="#343a40"
@@ -139,25 +156,7 @@ for(let i = 0 ; i < board.length ; i++){
 	}
 
 
-}
-
-}
-
-function checkstatus (event) {
-
-	if(gamestatus == "WIN") {
-		gameStatusPlace.innerHTML = `${event.target.innerHTML} WON !`
-		gameStatusPlace.style.color = "green"
-		//skuziti kako disable bez funkcije ovdje.
-		disableButtons();
-	} else if(count == 9) {
-
-		gameStatusPlace.innerHTML = `Board filled. Game Over !`
-		gameStatusPlace.style.color = "red"
-		playagain.disabled = false;
-		disableButtons();
-	}
-}
+}}
 
 function disableButtons () {
 
@@ -168,34 +167,32 @@ function disableButtons () {
 	symbolX.disabled = true;
 	symbolO.disabled = true;
 	playagain.disabled = false;
+
 }
 
 function reset () {
 
- 	gameStatusPlace.innerHTML = ""
-	gamestatus = "";
+ 	gamestatus = "";
+ 	gameStatusPlace.innerHTML = gamestatus;
+
 	count = 0;
 	step = 1;
+
 	firstmark = undefined;
 	secondmark= undefined;
 
 	symbolX.disabled = false;
 	symbolO.disabled = false;
 	
-
-	for(let i = 0 ; i < bats.length ; i++){
+	for(let i = 0 ; i < bats.length ; i++) {
 		bats[i].innerHTML = "";
 		bats[i].value = i+1;
 		bats[i].disabled = false;
 	}
 
-
-
 	for(let i = 0 ; i < board.length ; i++){
 		for(let k = 0 ; k < board[i].length ; k++){
 			count++
-			board[i][k] = count;
+			board[i][k] = count;}	
 		}
-	}
-
 }

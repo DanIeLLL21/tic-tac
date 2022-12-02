@@ -9,7 +9,7 @@ table {
 }
 
 body {
-	background-color:#343a40;
+	background-color:#212529;
 }
 
 h1 {
@@ -20,6 +20,13 @@ h1 {
 }
 p {
 	color:white;
+	margin-bottom:20px;
+}
+
+#gamestatus {
+	text-align:center;
+	margin-left:-100px;
+	font-weight:700;
 }
 .container {
 
@@ -37,7 +44,7 @@ p {
 }
 
 
-.firstSymbol  {
+.firstSymbolContainer  {
 	margin-left:135px;
 	margin-top:50px;
 	color:white;
@@ -51,7 +58,8 @@ td:nth-of-type(2n),td:nth-of-type(3n) {
 	display:block;
 	width:120px;
 	height:50px;
-	font-size:20px;
+	font-size:18px;
+	border-radius:20px;
 }
 
 #firstSymbol-X,#firstSymbol-O {
@@ -59,9 +67,9 @@ td:nth-of-type(2n),td:nth-of-type(3n) {
 	height:50px;
 	font-size:20px;
 	margin-bottom:20px;
-
-
+	border-radius:45px;
 }
 #firstSymbol-O{
 	margin-left:14px;
+
 }
